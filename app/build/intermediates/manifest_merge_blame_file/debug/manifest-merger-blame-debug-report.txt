@@ -1,0 +1,81 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.myapplication"
+4    android:versionCode="2"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="30" />
+9-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+11-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:34:5-81
+11-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:34:22-78
+12    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+12-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:35:5-80
+12-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:35:22-77
+13    <uses-permission android:name="android.permission.INTERNET" />
+13-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:36:5-67
+13-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:36:22-64
+14    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+14-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:37:5-38:53
+14-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:37:22-79
+15
+16    <application
+16-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:5:5-32:19
+17        android:allowBackup="true"
+17-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:6:13-39
+18        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+18-->[androidx.core:core:1.3.1] /Users/dewei/.gradle/caches/transforms-3/4e75c6495e867ccb2a4d1ab0c9d57948/transformed/core-1.3.1/AndroidManifest.xml:24:18-86
+19        android:debuggable="true"
+20        android:icon="@drawable/logo"
+20-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:7:13-42
+21        android:label="@string/app_name"
+21-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:8:13-45
+22        android:roundIcon="@mipmap/ic_launcher_round"
+22-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:9:13-58
+23        android:supportsRtl="true"
+23-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:10:13-39
+24        android:theme="@style/Theme.MyApplication" >
+24-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:11:13-55
+25
+26        <!-- 设置LoginActivity为启动活动 -->
+27        <activity
+27-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:13:9-24:20
+28            android:name="com.example.myapplication.ScanActivity"
+28-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:14:17-45
+29            android:exported="true"
+29-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:15:17-40
+30            android:launchMode="standard"
+30-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:16:17-46
+31            android:screenOrientation="landscape"
+31-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:17:17-54
+32            android:windowSoftInputMode="adjustPan" >
+32-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:18:17-56
+33            <intent-filter>
+33-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:20:13-23:29
+34                <action android:name="android.intent.action.MAIN" />
+34-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:21:17-68
+34-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:21:25-66
+35
+36                <category android:name="android.intent.category.LAUNCHER" />
+36-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:22:17-76
+36-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:22:27-74
+37            </intent-filter>
+38        </activity>
+39
+40        <receiver android:name="com.example.myapplication.BootReceiver" >
+40-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:26:9-30:20
+40-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:26:19-47
+41            <intent-filter>
+41-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:27:13-29:29
+42                <action android:name="android.intent.action.BOOT_COMPLETED" />
+42-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:28:17-78
+42-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:28:25-76
+43            </intent-filter>
+44        </receiver>
+45    </application>
+46
+47</manifest>

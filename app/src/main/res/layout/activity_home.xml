@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
+
+    <!-- 大标题 -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xxx科技有限公司"
+            android:textSize="24sp"
+            android:textColor="#333"
+    android:textStyle="bold"
+    android:layout_marginBottom="16dp"/>
+
+    <!-- 小标题 -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RFID 通道机"
+            android:textSize="18sp"
+            android:textColor="#666"
+    android:layout_marginBottom="16dp"/>
+
+    <!-- 三个功能按钮 -->
+    <Button
+            android:id="@+id/buttonBindTag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="标签绑定"
+            android:layout_marginBottom="16dp"/>
+
+    <Button
+            android:id="@+id/buttonInbound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="入库"
+            android:layout_marginBottom="16dp"/>
+
+    <Button
+            android:id="@+id/buttonOutbound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="出库"/>
+
+</LinearLayout>

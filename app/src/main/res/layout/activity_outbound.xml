@@ -1,0 +1,191 @@
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+    <!-- activity_outbound.xml -->
+    <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+        <!-- 标题 -->
+        <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="出库"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"/>
+
+        <!-- 读取数量显示 -->
+        <TextView
+                android:id="@+id/textViewReadCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:layout_below="@id/textViewTitle"/>
+
+        <!-- 表格1：显示读取到的具体信息 -->
+        <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewReadCount"
+                android:layout_marginTop="16dp"
+                android:stretchColumns="*">
+
+            <!-- 表头 -->
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RFID编号"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="产品名称"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="规格型号"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="单位"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="部门"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人员"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="状态"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+            </TableRow>
+
+            <!-- 表格内容将在代码中动态添加 -->
+        </TableLayout>
+
+        <!-- 表格2：出库表格的汇总数据 -->
+        <TableLayout
+                android:id="@+id/summaryTableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableLayout"
+                android:layout_marginTop="16dp"
+                android:stretchColumns="*">
+
+            <!-- 表头 -->
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="产品名称"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="规格型号"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="单位"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="部门"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人员"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="数量"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="#CCCCCC"/>
+            </TableRow>
+
+            <!-- 表格内容将在代码中动态添加 -->
+        </TableLayout>
+
+        <!-- 按钮区域 -->
+        <LinearLayout
+                android:id="@+id/llButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/summaryTableLayout"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp">
+
+            <!-- 读取RFID按钮 -->
+            <Button
+                    android:id="@+id/buttonReadRFID"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="读取RFID"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"/>
+
+            <!-- 出库按钮 -->
+            <Button
+                    android:id="@+id/buttonOutbound"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="出库"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:enabled="false"/> <!-- 默认不可点击 -->
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

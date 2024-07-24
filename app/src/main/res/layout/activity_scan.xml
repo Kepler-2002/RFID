@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+    <ImageView
+            android:id="@+id/imageViewLogo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/logo"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+    />
+
+    <!-- 全屏进度条 -->
+    <ProgressBar
+            android:id="@+id/progressBarConnecting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    <!-- 正在连接读写器文本 -->
+    <TextView
+            android:id="@+id/textConnectingStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在连接读写器"
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:layout_gravity="bottom|end"/>
+
+    <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RFID扫描通道系统"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+            android:id="@+id/main_column"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="100dp"
+            android:layout_below="@id/textViewTitle"
+            android:orientation="horizontal"
+    >
+        <!-- 功率选择框及标题 -->
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:orientation="horizontal">
+
+            <!-- 标题 -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text1"
+                    android:text="功率："
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
+
+            <!-- 功率选择框 -->
+            <Spinner
+                    android:id="@+id/spinnerPower"
+                    android:layout_width="100dp"
+                    android:textSize="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:prompt="@string/prompt_power"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+            <!-- 读取数量显示 -->
+            <TextView
+                    android:id="@+id/textViewReadCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="读取数量: 0"
+                    android:textSize="30dp"
+                    android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
+        <ScrollView
+                android:id="@+id/scrollViewMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="100dp">
+            <!-- 表格 -->
+            <TableLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <!-- 表头 -->
+                <TableRow>
+                    <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:text="RFID编号"
+                            android:textSize="25dp"
+                            android:background="#CCCCCC"/>
+                </TableRow>
+
+                <!-- 表格内容将在代码中动态添加 -->
+            </TableLayout>
+        </ScrollView>
+
+
+
+
+    </LinearLayout>
+
+
+    <!-- 按钮区域 -->
+    <LinearLayout
+            android:id="@+id/llButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/main_column"
+            >
+
+        <!-- 刷新按钮 -->
+        <Button
+                android:id="@+id/buttonRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="刷新"
+                android:textSize="40dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginBottom="8dp"/>
+        <!-- 输入框 -->
+        <EditText
+                android:id="@+id/editTextIpAddress"
+                android:layout_width="200dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="200dp"
+                android:layout_marginRight="200dp"
+                android:layout_height="wrap_content"
+                android:hint="192.168.0.1:5555"
+                android:inputType="none"
+                android:clickable="true"/>
+
+        <!-- 连接按钮 -->
+        <Button
+                android:id="@+id/buttonConnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="100dp"
+                android:textSize="40dp"
+                android:text="连接"/>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+

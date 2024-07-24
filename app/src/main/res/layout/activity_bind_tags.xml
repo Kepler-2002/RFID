@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+    <!-- 页面标题 -->
+    <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签绑定"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"/>
+
+    <!-- 选择框区域 -->
+    <LinearLayout
+            android:id="@+id/llSelection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTitle"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center">
+            <!-- 单位选择框及标题 -->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                <!-- 标题 -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="单位："
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                <!-- 单位选择框 -->
+                <Spinner
+                        android:id="@+id/spinnerUnit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:prompt="@string/prompt_hospital" />
+            </LinearLayout>
+
+            <!-- 部门选择框及标题 -->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                <!-- 标题 -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="部门："
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                <!-- 部门选择框 -->
+                <Spinner
+                        android:id="@+id/spinnerDepartment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:prompt="@string/prompt_department" />
+            </LinearLayout>
+
+            <!-- 人员选择框及标题 -->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                <!-- 标题 -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人员："
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                <!-- 人员选择框 -->
+                <Spinner
+                        android:id="@+id/spinnerPerson"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:prompt="@string/prompt_person" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center">
+            <!-- 产品类别选择框及标题 -->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                <!-- 标题 -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="产品类别："
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                <!-- 产品类别选择框 -->
+                <Spinner
+                        android:id="@+id/spinnerCategory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:prompt="@string/prompt_category" />
+            </LinearLayout>
+
+            <!-- 规格名称选择框及标题 -->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                <!-- 标题 -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="规格名称："
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                <!-- 规格名称选择框 -->
+                <Spinner
+                        android:id="@+id/spinnerSpecification"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:prompt="@string/prompt_specification" />
+            </LinearLayout>
+
+            <!-- 读取数量显示 -->
+            <TextView
+                    android:id="@+id/textViewReadCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="读取数量: 0"
+                    android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 表格 -->
+    <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llSelection"
+            android:layout_marginTop="16dp"
+            android:stretchColumns="*">
+
+        <!-- 表头 -->
+        <TableRow>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RFID编号"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="#CCCCCC"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="产品名称"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="#CCCCCC"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="规格型号"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="#CCCCCC"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="单位"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="#CCCCCC"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="部门"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="#CCCCCC"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="人员"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="#CCCCCC"/>
+        </TableRow>
+
+        <!-- 表格内容将在代码中动态添加 -->
+    </TableLayout>
+
+    <!-- 按钮区域 -->
+    <LinearLayout
+            android:id="@+id/llButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tableLayout"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp">
+
+        <!-- 读取RFID按钮 -->
+        <Button
+                android:id="@+id/buttonReadRFID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="读取RFID"
+                android:layout_marginBottom="8dp"/>
+
+        <!-- 提交按钮 -->
+        <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="提交"
+                android:layout_marginBottom="8dp"
+                android:enabled="false"/> <!-- 默认不可点击 -->
+    </LinearLayout>
+</RelativeLayout>

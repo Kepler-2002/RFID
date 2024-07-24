@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
+    <!-- 大标题 -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xxx科技有限公司"
+            android:textSize="24sp"
+            android:textColor="#333"
+    android:textStyle="bold"
+    android:layout_marginBottom="16dp"/>
+
+    <!-- 小标题 -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RFID 通道机"
+            android:textSize="18sp"
+            android:textColor="#666"
+    android:layout_marginBottom="16dp"/>
+
+    <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="用户名"
+            android:inputType="text"
+            android:layout_marginBottom="16dp"/>
+
+    <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:layout_marginBottom="16dp"/>
+
+    <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登录"/>
+
+</LinearLayout>

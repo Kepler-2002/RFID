@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RFID扫描通道系统</string>
+    <string name="_0">读取数量: 0</string>
+    <string name="prompt_hospital">请选择医院</string>
+    <string name="prompt_department">请选择科室</string>
+    <string name="prompt_person">请选择人员</string>
+    <string name="prompt_category">请选择产品类别</string>
+    <string name="prompt_specification">请选择规格名称</string>
+    <string name="prompt_power">请选择功率</string>
+</resources>
