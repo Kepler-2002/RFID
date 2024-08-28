@@ -9,7 +9,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.MyApplication">
-        <!-- 设置LoginActivity为启动活动 -->
+        <!-- 设置ScanActivity为启动活动 -->
         <activity
                 android:name=".ScanActivity"
                 android:exported="true"

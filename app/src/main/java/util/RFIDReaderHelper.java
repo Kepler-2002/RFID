@@ -240,9 +240,6 @@ public class RFIDReaderHelper implements IAsynchronousMessage{
 
     }
 
-
-
-
     public ConnectionResult connectToReader() {
         for (int i = 0; i < Ports.length; i++) {
             conn = RFIDReader.CreateSerialConn(Ports[i] + ":115200", this);

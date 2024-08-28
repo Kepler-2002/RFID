@@ -38,44 +38,45 @@
 22-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:9:13-58
 23        android:supportsRtl="true"
 23-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:10:13-39
-24        android:theme="@style/Theme.MyApplication" >
-24-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:11:13-55
-25
-26        <!-- 设置LoginActivity为启动活动 -->
-27        <activity
-27-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:13:9-24:20
-28            android:name="com.example.myapplication.ScanActivity"
-28-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:14:17-45
-29            android:exported="true"
-29-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:15:17-40
-30            android:launchMode="standard"
-30-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:16:17-46
-31            android:screenOrientation="landscape"
-31-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:17:17-54
-32            android:windowSoftInputMode="adjustPan" >
-32-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:18:17-56
-33            <intent-filter>
-33-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:20:13-23:29
-34                <action android:name="android.intent.action.MAIN" />
-34-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:21:17-68
-34-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:21:25-66
-35
-36                <category android:name="android.intent.category.LAUNCHER" />
-36-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:22:17-76
-36-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:22:27-74
-37            </intent-filter>
-38        </activity>
-39
-40        <receiver android:name="com.example.myapplication.BootReceiver" >
-40-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:26:9-30:20
-40-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:26:19-47
-41            <intent-filter>
-41-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:27:13-29:29
-42                <action android:name="android.intent.action.BOOT_COMPLETED" />
-42-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:28:17-78
-42-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:28:25-76
-43            </intent-filter>
-44        </receiver>
-45    </application>
-46
-47</manifest>
+24        android:testOnly="true"
+25        android:theme="@style/Theme.MyApplication" >
+25-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:11:13-55
+26
+27        <!-- 设置ScanActivity为启动活动 -->
+28        <activity
+28-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:13:9-24:20
+29            android:name="com.example.myapplication.ScanActivity"
+29-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:14:17-45
+30            android:exported="true"
+30-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:15:17-40
+31            android:launchMode="standard"
+31-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:16:17-46
+32            android:screenOrientation="landscape"
+32-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:17:17-54
+33            android:windowSoftInputMode="adjustPan" >
+33-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:18:17-56
+34            <intent-filter>
+34-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:20:13-23:29
+35                <action android:name="android.intent.action.MAIN" />
+35-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:21:17-68
+35-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:21:25-66
+36
+37                <category android:name="android.intent.category.LAUNCHER" />
+37-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:22:17-76
+37-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:22:27-74
+38            </intent-filter>
+39        </activity>
+40
+41        <receiver android:name="com.example.myapplication.BootReceiver" >
+41-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:26:9-30:20
+41-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:26:19-47
+42            <intent-filter>
+42-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:27:13-29:29
+43                <action android:name="android.intent.action.BOOT_COMPLETED" />
+43-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:28:17-78
+43-->/Users/dewei/IdeaProjects/Android Project/app/src/main/AndroidManifest.xml:28:25-76
+44            </intent-filter>
+45        </receiver>
+46    </application>
+47
+48</manifest>

@@ -68,7 +68,6 @@ public class TCPClient {
 
   public boolean isConnected() {
     if (socket == null || !socket.isConnected()) {
-      System.out.println("socket is null or socket is not connected: "+ socket );
       return false;
     }
 

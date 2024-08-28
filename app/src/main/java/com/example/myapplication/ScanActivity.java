@@ -31,17 +31,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.*;
 
 public class ScanActivity extends AppCompatActivity{
   private RFIDReaderHelper rfidReaderHelper;
 
   public TCPClient tcpClient = new TCPClient();
-  private String defaultIpAddress = "192.168.1.106";
-  private int defaultPort = 7899; // 默认端口号
-
-
+  private String defaultIpAddress;
+  private int defaultPort; // 默认端口号
 
   private String connID;
 
@@ -66,41 +63,29 @@ public class ScanActivity extends AppCompatActivity{
 
   // 声明一个Handler用于定时任务
   private Handler handler = new Handler();
+
+  private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
   private Runnable reconnectRunnable = new Runnable() {
     @Override
     public void run() {
       if (!isReconnectRunning) {
-          isReconnectRunning = true;
+        isReconnectRunning = true;
       }
 
-//      // 检查连接状态
-//      if (!tcpClient.isConnectedV2()) {
-//        Log.d("Syslog", "connection broken, call connection method");
-//        // 连接断开，进行重新连接
-//        reconnectToTCPClient();
-//      }
+      boolean isConnected = tcpClient.isConnectedV2();
 
-      // 在后台线程中执行网络操作
-      new Thread(new Runnable() {
-        @Override
-        public void run() {
-          boolean isConnected = tcpClient.isConnectedV2();
-          // 在主线程中更新UI
-          handler.post(new Runnable() {
-            @Override
-            public void run() {
-              if (!isConnected) {
-                Log.d("Syslog", "connection broken, call connection method");
-                // 连接断开，进行重新连接
-                reconnectToTCPClient();
-              }
-            }
-          });
-        }
-      }).start();
+      if (!isConnected) {
+        Log.d("Syslog", "TCP连接断开，正在连接...");
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            showToast("TCP连接断开，正在重新连接...");
+          }
+        });
 
-      // 重新调度任务
-      handler.postDelayed(this, 5000);
+        // 进行重新连接操作
+        connectToTCPClient(defaultIpAddress, defaultPort);
+      }
     }
   };
 
@@ -110,7 +95,6 @@ public class ScanActivity extends AppCompatActivity{
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
 
     rfidReaderHelper = new RFIDReaderHelper(buffer, new HashMap<>(), this);
 
@@ -145,8 +129,8 @@ public class ScanActivity extends AppCompatActivity{
 
     // 从SharedPreferences中读取默认IP地址和端口号
     SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-    defaultIpAddress = sharedPref.getString("ipAddress", "192.168.1.106");
-    defaultPort = sharedPref.getInt("port", 7899);
+    defaultIpAddress = sharedPref.getString("ipAddress", "192.168.1.105");
+    defaultPort = sharedPref.getInt("port", 9999);
 
     // 初始化视图组件
     spinnerPower= findViewById(R.id.spinnerPower);
@@ -198,7 +182,7 @@ public class ScanActivity extends AppCompatActivity{
 
           if (!isReconnectRunning) {
             Log.d("Syslog", "call detection method");
-            handler.postDelayed(reconnectRunnable, 5000);
+            scheduler.scheduleAtFixedRate(reconnectRunnable, 0, 5, TimeUnit.SECONDS);
           }
 
           // 将获取的IP地址和端口号设置为默认值
@@ -233,23 +217,12 @@ public class ScanActivity extends AppCompatActivity{
         buttonRefresh.setEnabled(true);
       }
     });
-  }
 
-  // 在连接断开时进行重新连接
-  public void reconnectToTCPClient() {
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        showToast("TCP连接断开，正在重新连接...");
-      }
-    });
-
-    // 进行重新连接操作
-    connectToTCPClient(defaultIpAddress, defaultPort);
   }
+  private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
   private void connectToTCPClient(String targetIpAddress, int targetPort) {
-    new Thread(new Runnable() {
+    executorService.execute(new Runnable() {
       @Override
       public void run() {
         try {
@@ -259,7 +232,6 @@ public class ScanActivity extends AppCompatActivity{
             tcpClient = new TCPClient();
             tcpClient.connect(targetIpAddress, targetPort,5000);
           }
-
           if (tcpClient.isConnectedV2()) {
             runOnUiThread(new Runnable() {
               @Override
@@ -272,8 +244,8 @@ public class ScanActivity extends AppCompatActivity{
         } catch (final IOException e) {
           e.printStackTrace();
         }
-      }
-    }).start();
+      };
+    });
   }
 
   // 初始化选择框
@@ -366,19 +338,17 @@ public class ScanActivity extends AppCompatActivity{
     if (rfidReaderHelper.conn){
       // 从SharedPreferences中读取默认IP地址和端口号
       SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-      defaultIpAddress = sharedPref.getString("ipAddress", "192.168.1.106");
-      defaultPort = sharedPref.getInt("port", 7899);
+      defaultIpAddress = sharedPref.getString("ipAddress", "192.168.1.105");
+      defaultPort = sharedPref.getInt("port", 9999);
       int defaultPowerLevel = sharedPref.getInt("defaultPowerLevel", 30);
       Log.d("System.out", "Default Power Level: " + defaultPowerLevel);
       // 初始化选择框
       initSpinners(defaultPowerLevel);
-      connectToTCPClient(defaultIpAddress, defaultPort);
     }
 
     if(!isReconnectRunning) {
-      Log.d("Syslog", "call detection method");
-      // 开始定时重连检测任务
-      handler.postDelayed(reconnectRunnable, 5000);
+      // 启动定时任务，每5秒执行一次
+      scheduler.scheduleAtFixedRate(reconnectRunnable, 0, 5, TimeUnit.SECONDS);
     }
 
     // 继续初始化界面的代码
@@ -479,6 +449,8 @@ public class ScanActivity extends AppCompatActivity{
   protected void onDestroy() {
     super.onDestroy();
     rfidReaderHelper.closeAllConnect();
+    executorService.shutdown();
+    scheduler.shutdown();
   }
 }
 
