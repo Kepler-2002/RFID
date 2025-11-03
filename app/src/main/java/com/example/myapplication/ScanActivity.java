@@ -26,6 +26,7 @@ import com.rfidread.Enumeration.eGPOState;
 import util.ConnectToReaderTask;
 import util.RFIDReaderHelper;
 import util.TCPClient;
+import util.TCPServer;
 
 import java.io.IOException;
 import java.util.*;
@@ -37,8 +38,10 @@ public class ScanActivity extends AppCompatActivity{
   private RFIDReaderHelper rfidReaderHelper;
 
   public TCPClient tcpClient = new TCPClient();
+  private TCPServer tcpServer;
   private String defaultIpAddress;
   private int defaultPort; // 默认端口号
+  private int plcServerPort = 9998; // PLC Server的端口号
 
   private String connID;
 
@@ -52,6 +55,7 @@ public class ScanActivity extends AppCompatActivity{
   private Button buttonRefresh;
   private EditText editTextIpAddress;
   private Button buttonConnect;
+  private EditText editTextTimeout;
 
   private ProgressBar progressBarConnecting;
   private TextView textConnectingStatus;
@@ -90,13 +94,25 @@ public class ScanActivity extends AppCompatActivity{
   };
 
   BlockingDeque<String> buffer = new LinkedBlockingDeque<>();
+  private BlockingQueue<String> plcDataQueue = new LinkedBlockingQueue<>();
+  private BlockingQueue<RFIDData> rfidDataQueue = new LinkedBlockingQueue<>();
+
+  private long timeoutThreshold = 300; // 默认超时阈值，单位：毫秒
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    rfidReaderHelper = new RFIDReaderHelper(buffer, new HashMap<>(), this);
+    rfidReaderHelper = new RFIDReaderHelper(rfidDataQueue);
+
+    // 启动TCP Server
+    tcpServer = new TCPServer(plcServerPort, plcDataQueue);
+    tcpServer.start();
+
+    // 启动数据处理线程
+    startDataProcessingThread();
 
     // 创建一个线程用于从缓冲区的头部获取数据并发送
     new Thread(() -> {
@@ -131,6 +147,7 @@ public class ScanActivity extends AppCompatActivity{
     SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
     defaultIpAddress = sharedPref.getString("ipAddress", "192.168.1.105");
     defaultPort = sharedPref.getInt("port", 9999);
+    timeoutThreshold = sharedPref.getLong("timeoutThreshold", 300);
 
     // 初始化视图组件
     spinnerPower= findViewById(R.id.spinnerPower);
@@ -140,6 +157,8 @@ public class ScanActivity extends AppCompatActivity{
     editTextIpAddress = findViewById(R.id.editTextIpAddress);
     editTextIpAddress.setText(defaultIpAddress + ":" + defaultPort);
     buttonConnect = findViewById(R.id.buttonConnect);
+    editTextTimeout = findViewById(R.id.editTextTimeout);
+    editTextTimeout.setText(String.valueOf(timeoutThreshold));
     text1 = findViewById(R.id.text1);
 
     ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
@@ -156,6 +175,7 @@ public class ScanActivity extends AppCompatActivity{
     tableLayout.setVisibility(View.INVISIBLE);
     editTextIpAddress.setVisibility(View.INVISIBLE);
     buttonConnect.setVisibility(View.INVISIBLE);
+    editTextTimeout.setVisibility(View.INVISIBLE);
     text1.setVisibility(View.INVISIBLE);
 
     // 执行读写器连接操作
@@ -219,7 +239,6 @@ public class ScanActivity extends AppCompatActivity{
     });
 
   }
-  private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
   private void connectToTCPClient(String targetIpAddress, int targetPort) {
     executorService.execute(new Runnable() {
@@ -452,5 +471,48 @@ public class ScanActivity extends AppCompatActivity{
     executorService.shutdown();
     scheduler.shutdown();
   }
-}
 
+  private void checkAndHandleTimeout() {
+    long currentTime = System.currentTimeMillis();
+    for (RFIDData rfidData : rfidDataQueue) {
+      if (currentTime - rfidData.getTimestamp() > timeoutThreshold) {
+        // 超时，发送NOREAD
+        String formattedData = "02" + "NOREAD" + ";" + "EPC" + rfidData.getEpc();
+        buffer.offer(formattedData);
+        rfidDataQueue.remove(rfidData); // 从队列中移除已处理的数据
+      }
+    }
+  }
+
+
+  private void startDataProcessingThread() {
+    new Thread(() -> {
+      while (true) {
+        try {
+          // 尝试从两个队列中取出数据
+          RFIDData rfidData = rfidDataQueue.poll();
+          String carId = plcDataQueue.poll();
+
+          if (rfidData != null && carId != null) {
+            // 两个队列都有数据，进行配对
+            String formattedData = "02" + carId + ";" + "EPC" + rfidData.getEpc();
+            buffer.offer(formattedData);
+          } else if (rfidData != null) {
+            // rfidData不为空，但carId为空，将其放回队列等待
+            rfidDataQueue.offer(rfidData);
+          } else if (carId != null) {
+            // carId不为空，但rfidData为空，将其放回队列等待
+            plcDataQueue.offer(carId);
+          }
+
+          // 检查超时的RFID数据
+          checkAndHandleTimeout();
+
+          Thread.sleep(50); //短暂休眠，避免CPU占用过高
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }).start();
+  }
+}

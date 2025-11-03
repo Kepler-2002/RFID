@@ -3,58 +3,46 @@ package util;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
-import com.example.myapplication.ScanActivity;
-import com.rfidread.Enumeration.*;
+import com.example.myapplication.RFIDData;
+import com.rfidread.Enumeration.eGPO;
+import com.rfidread.Enumeration.eGPOState;
 import com.rfidread.Interface.IAsynchronousMessage;
 import com.rfidread.Models.GPI_Model;
 import com.rfidread.Models.Tag_Model;
 import com.rfidread.RFIDReader;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
 
-public class RFIDReaderHelper implements IAsynchronousMessage{
-    private boolean isConnected = false;
-    private String connID;
+public class RFIDReaderHelper implements IAsynchronousMessage {
+  private boolean isConnected = false;
+  private String connID;
+  public boolean conn;
+  private HandlerThread handlerThread;
+  private Handler handler;
 
-    public boolean conn;
+  public HashMap<String, Integer> EpcDataMap = new HashMap<>();
+  public ArrayList<String> EpcDataList = new ArrayList<>();
+  private BlockingQueue<RFIDData> rfidDataQueue;
 
-    public HashMap<String, Integer> EpcDataMap = new HashMap<>(); // 用于存储EPC数据和对应的次数
+  public RFIDReaderHelper(BlockingQueue<RFIDData> rfidDataQueue) {
+    this.rfidDataQueue = rfidDataQueue;
+  }
 
-    public ArrayList<String> EpcDataList =  new ArrayList<>();
-
-    private BlockingDeque<String> buffer;
-    private HashMap<String, Boolean> SentDataMap;
-    private ScanActivity scanActivity;
-
-    private HandlerThread handlerThread;
-    private Handler handler;
-
-
-    // 其他成员变量
-    private String [] Ports = {
-            "/dev/ttyUSB2",
-            "/dev/ttyUSB1",
-            "/dev/ttyUSB0",
-            "/dev/ttyS8",
-            "/dev/ttyS7",
-            "/dev/ttyS6",
-            "/dev/ttyS5",
-            "/dev/ttyS4",
-            "/dev/ttyS3",
-            "/dev/ttyS2",
-            "/dev/ttyS1",
-            "/dev/ttyS0"};
-
-    public RFIDReaderHelper(BlockingDeque<String> buffer, HashMap<String, Boolean> SentDataMap, ScanActivity scanActivity) {
-        this.buffer = buffer;
-        this.SentDataMap = SentDataMap;
-        this.scanActivity = scanActivity;
-        initHandlerThread();
-    }
+  private String[] Ports = {
+      "/dev/ttyUSB2",
+      "/dev/ttyUSB1",
+      "/dev/ttyUSB0",
+      "/dev/ttyS8",
+      "/dev/ttyS7",
+      "/dev/ttyS6",
+      "/dev/ttyS5",
+      "/dev/ttyS4",
+      "/dev/ttyS3",
+      "/dev/ttyS2",
+      "/dev/ttyS1",
+      "/dev/ttyS0"};
 
     public void initHandlerThread() {
         handlerThread = new HandlerThread("MyHandlerThread");
@@ -157,59 +145,36 @@ public class RFIDReaderHelper implements IAsynchronousMessage{
         Log.d("Callback", "Output Over, connID: " + s);
     }
 
+  @Override
+  public void GPIControlMsg(String s, GPI_Model gpi_model) {
 
-    @Override
-    public void GPIControlMsg(String s, GPI_Model gpi_model) {
+    Log.d("Callback", "GPIControlMSg called with GPI Status: " + gpi_model.StartOrStop);
 
-        Log.d("Callback", "GPIControlMSg called with GPI Status: " + gpi_model.StartOrStop);
+    if (gpi_model.StartOrStop == 1) { // 触发停止
+      int max = 0;
 
-        if(gpi_model.StartOrStop == 1){ // 触发停止
-            int max = 0;
-
-            // 确定sentData
-            String SentData = "";
-            for (String item:EpcDataList) {
-                if (EpcDataMap.get(item) != null && EpcDataMap.get(item) > max){
-                    max = EpcDataMap.get(item);
-                    SentData = item;
-                }
-            }
-
-            // 将数据 + 当前时间发送到缓冲区, 写日志
-            try{
-                Date now = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
-                String currentTime = formatter.format(now);
-
-                if(max != 0 && (SentDataMap.get(SentData) == null || Boolean.FALSE.equals(SentDataMap.get(SentData))) ){ // 有数据，且这条数据没进过缓冲区
-                    //推进缓冲区
-                    buffer.putLast(SentData + " " + currentTime);
-
-                    //写日志
-                    LogUtils.saveLog(SentData + " " + currentTime);
-
-                    // 更新全局已发送map
-                    SentDataMap.put(SentData, true);
-
-                    // 插入表格中并更新读取数量
-                    scanActivity.updateReadCount();
-                    scanActivity.insertRowInTable(SentData);
-                    TurnLightOnAndOff();
-                }else { //
-                    //推进缓冲区
-                    buffer.putLast("noread " + currentTime);
-                    //写日志
-                    LogUtils.saveLog("noread " + currentTime);
-                }
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-
-            //重新开始计数
-            EpcDataMap = new HashMap<>();
-            EpcDataList = new ArrayList<>();
+      // 确定sentData
+      String SentData = "";
+      for (String item : EpcDataList) {
+        if (EpcDataMap.get(item) != null && EpcDataMap.get(item) > max) {
+          max = EpcDataMap.get(item);
+          SentData = item;
         }
+      }
+
+      // 将数据 + 当前时间发送到缓冲区, 写日志
+      try {
+        long timestamp = System.currentTimeMillis();
+        RFIDData rfidData = new RFIDData(SentData, timestamp);
+        rfidDataQueue.offer(rfidData);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      //重新开始计数
+      EpcDataMap = new HashMap<>();
+      EpcDataList = new ArrayList<>();
     }
+  }
 
     public void closeAllConnect() {
         RFIDReader.CloseAllConnect();

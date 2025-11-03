@@ -62,7 +62,7 @@ public class OutboundActivity extends AppCompatActivity {
 
 
         // 显示读取信息到汇总表格中
-        summarizeAndShowData();
+        //summarizeAndShowData();
 
 
       }
@@ -93,12 +93,11 @@ public class OutboundActivity extends AppCompatActivity {
             textViewReadCount.setText("读取数量: " + readCount);
 
             // 模拟读取结果，将读取到的数据添加到列表中
-            for (int i = 0; i < 10; i++) {
-              rfidDataList.add(new RFIDData(String.valueOf(i),"单位" + (i % 3 + 1), "部门" + (i % 3 + 1), "人员" + (i % 3 + 1), "规格" + (i % 2 + 1), "产品" + (i % 2 + 1)));
-            }
+//            for (int i = 0; i < 10; i++) {
+//            }
 
             // 显示读取信息到表格中（示例，实际操作需要根据读取结果进行处理）
-            showReadDataInTable();
+//            showReadDataInTable();
 
             // 启用出库按钮
             buttonOutbound.setEnabled(true);
@@ -129,104 +128,104 @@ public class OutboundActivity extends AppCompatActivity {
     }
   }
 
-// 显示读取信息到表格中
-private void showReadDataInTable() {
-  for (RFIDData rfidData : rfidDataList) {
-    // 创建新的表格行
-    TableRow row = new TableRow(this);
-
-    // 创建并添加RFID编号的TextView
-    TextView rfidTextView = new TextView(this);
-    rfidTextView.setText(rfidData.getID()); // 替换为实际的RFID编号
-    row.addView(rfidTextView);
-
-    // 创建并添加产品名称的TextView
-    TextView productNameTextView = new TextView(this);
-    productNameTextView.setText(rfidData.getProductName());
-    row.addView(productNameTextView);
-
-    // 创建并添加规格型号的TextView
-    TextView specTextView = new TextView(this);
-    specTextView.setText(rfidData.getSpec());
-    row.addView(specTextView);
-
-    // 创建并添加单位的TextView
-    TextView unitTextView = new TextView(this);
-    unitTextView.setText(rfidData.getUnit());
-    row.addView(unitTextView);
-
-    // 创建并添加部门的TextView
-    TextView departmentTextView = new TextView(this);
-    departmentTextView.setText(rfidData.getDepartment());
-    row.addView(departmentTextView);
-
-    // 创建并添加人员的TextView
-    TextView personTextView = new TextView(this);
-    personTextView.setText(rfidData.getPerson());
-    row.addView(personTextView);
-
-    // 将行添加到表格中
-    tableLayout.addView(row);
-  }
-}
-
-  // 显示读取信息到汇总表格中
-  private void summarizeAndShowData() {
-    clearSummaryTable();
-    Map<String, Integer> summaryData = new HashMap<>();
-
-    // 遍历RFID数据列表，统计出库数量
-    for (RFIDData rfidData : rfidDataList) {
-      String key = rfidData.getUnit() + ","+rfidData.getDepartment() +","+ rfidData.getPerson()+","
-               +rfidData.getSpec() + "," + rfidData.getProductName();
-      if (summaryData.containsKey(key)) {
-        summaryData.put(key, summaryData.get(key) + 1);
-      } else {
-        summaryData.put(key, 1);
-      }
-    }
-
-
-
-    // 遍历汇总数据并显示在汇总表格中
-    for (Map.Entry<String, Integer> entry : summaryData.entrySet()) {
-      String[] keys = entry.getKey().split(",");
-      String productName = keys[0];
-      String spec = keys[1];
-      String unit = keys[2];
-      String department = keys[3];
-      String person = keys[4];
-      int quantity = entry.getValue();
-
-      TableRow summaryRow = new TableRow(this);
-
-      TextView productNameTextView = new TextView(this);
-      productNameTextView.setText(productName);
-      summaryRow.addView(productNameTextView);
-
-      TextView specTextView = new TextView(this);
-      specTextView.setText(spec);
-      summaryRow.addView(specTextView);
-
-      TextView unitTextView = new TextView(this);
-      unitTextView.setText(unit);
-      summaryRow.addView(unitTextView);
-
-      TextView departmentTextView = new TextView(this);
-      departmentTextView.setText(department);
-      summaryRow.addView(departmentTextView);
-
-      TextView personTextView = new TextView(this);
-      personTextView.setText(person);
-      summaryRow.addView(personTextView);
-
-      TextView quantityTextView = new TextView(this);
-      quantityTextView.setText(String.valueOf(quantity));
-      summaryRow.addView(quantityTextView);
-
-      summaryTableLayout.addView(summaryRow);
-    }
-  }
+//// 显示读取信息到表格中
+//private void showReadDataInTable() {
+//  for (RFIDData rfidData : rfidDataList) {
+//    // 创建新的表格行
+//    TableRow row = new TableRow(this);
+//
+//    // 创建并添加RFID编号的TextView
+//    TextView rfidTextView = new TextView(this);
+//    rfidTextView.setText(rfidData.getID()); // 替换为实际的RFID编号
+//    row.addView(rfidTextView);
+//
+//    // 创建并添加产品名称的TextView
+//    TextView productNameTextView = new TextView(this);
+//    productNameTextView.setText(rfidData.getProductName());
+//    row.addView(productNameTextView);
+//
+//    // 创建并添加规格型号的TextView
+//    TextView specTextView = new TextView(this);
+//    specTextView.setText(rfidData.getSpec());
+//    row.addView(specTextView);
+//
+//    // 创建并添加单位的TextView
+//    TextView unitTextView = new TextView(this);
+//    unitTextView.setText(rfidData.getUnit());
+//    row.addView(unitTextView);
+//
+//    // 创建并添加部门的TextView
+//    TextView departmentTextView = new TextView(this);
+//    departmentTextView.setText(rfidData.getDepartment());
+//    row.addView(departmentTextView);
+//
+//    // 创建并添加人员的TextView
+//    TextView personTextView = new TextView(this);
+//    personTextView.setText(rfidData.getPerson());
+//    row.addView(personTextView);
+//
+//    // 将行添加到表格中
+//    tableLayout.addView(row);
+//  }
+//}
+//
+//  // 显示读取信息到汇总表格中
+//  private void summarizeAndShowData() {
+//    clearSummaryTable();
+//    Map<String, Integer> summaryData = new HashMap<>();
+//
+//    // 遍历RFID数据列表，统计出库数量
+//    for (RFIDData rfidData : rfidDataList) {
+//      String key = rfidData.getUnit() + ","+rfidData.getDepartment() +","+ rfidData.getPerson()+","
+//               +rfidData.getSpec() + "," + rfidData.getProductName();
+//      if (summaryData.containsKey(key)) {
+//        summaryData.put(key, summaryData.get(key) + 1);
+//      } else {
+//        summaryData.put(key, 1);
+//      }
+//    }
+//
+//
+//
+//    // 遍历汇总数据并显示在汇总表格中
+//    for (Map.Entry<String, Integer> entry : summaryData.entrySet()) {
+//      String[] keys = entry.getKey().split(",");
+//      String productName = keys[0];
+//      String spec = keys[1];
+//      String unit = keys[2];
+//      String department = keys[3];
+//      String person = keys[4];
+//      int quantity = entry.getValue();
+//
+//      TableRow summaryRow = new TableRow(this);
+//
+//      TextView productNameTextView = new TextView(this);
+//      productNameTextView.setText(productName);
+//      summaryRow.addView(productNameTextView);
+//
+//      TextView specTextView = new TextView(this);
+//      specTextView.setText(spec);
+//      summaryRow.addView(specTextView);
+//
+//      TextView unitTextView = new TextView(this);
+//      unitTextView.setText(unit);
+//      summaryRow.addView(unitTextView);
+//
+//      TextView departmentTextView = new TextView(this);
+//      departmentTextView.setText(department);
+//      summaryRow.addView(departmentTextView);
+//
+//      TextView personTextView = new TextView(this);
+//      personTextView.setText(person);
+//      summaryRow.addView(personTextView);
+//
+//      TextView quantityTextView = new TextView(this);
+//      quantityTextView.setText(String.valueOf(quantity));
+//      summaryRow.addView(quantityTextView);
+//
+//      summaryTableLayout.addView(summaryRow);
+//    }
+//  }
 
   // 显示 Toast 消息的方法
   private void showToast(String message) {

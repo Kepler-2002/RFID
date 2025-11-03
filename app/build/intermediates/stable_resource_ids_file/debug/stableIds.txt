@@ -1,3 +1,4 @@
+com.example.myapplication:id/editTextTimeout = 0x7f0801b8
 com.example.myapplication:style/Widget.AppCompat.RatingBar.Indicator = 0x7f10023e
 com.example.myapplication:style/Widget.MaterialComponents.TextInputEditText.OutlinedBox = 0x7f1002b4
 com.example.myapplication:styleable/ThemeEnforcement = 0x7f110079

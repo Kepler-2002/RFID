@@ -1843,6 +1843,7 @@ int id easeInOut 0x7f08009b
 int id easeOut 0x7f08009c
 int id editTextIpAddress 0x7f08009d
 int id editTextPassword 0x7f08009e
+int id editTextTimeout 0x7f0801b8
 int id editTextUsername 0x7f08009f
 int id edit_query 0x7f0800a0
 int id elastic 0x7f0800a1

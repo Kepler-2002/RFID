@@ -165,8 +165,13 @@
                 android:textSize="40dp"
                 android:text="连接"/>
 
-
-
+        <EditText
+                android:id="@+id/editTextTimeout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="超时(ms)"
+                android:inputType="number"
+                android:textSize="24sp" />
     </LinearLayout>
 
 </RelativeLayout>

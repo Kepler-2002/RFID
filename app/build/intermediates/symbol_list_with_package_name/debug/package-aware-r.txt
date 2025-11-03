@@ -1844,6 +1844,7 @@ id easeInOut
 id easeOut
 id editTextIpAddress
 id editTextPassword
+id editTextTimeout
 id editTextUsername
 id edit_query
 id elastic
