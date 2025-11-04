@@ -24,6 +24,10 @@
         "source": "/Users/dewei/IdeaProjects/Android Project/app/src/main/res/layout/activity_outbound.xml"
     },
     {
+        "merged": "/Users/dewei/IdeaProjects/Android Project/app/build/intermediates/merged_res/debug/raw_config.properties.flat",
+        "source": "/Users/dewei/IdeaProjects/Android Project/app/src/main/res/raw/config.properties"
+    },
+    {
         "merged": "/Users/dewei/IdeaProjects/Android Project/app/build/intermediates/merged_res/debug/mipmap-xxhdpi_ic_launcher.webp.flat",
         "source": "/Users/dewei/IdeaProjects/Android Project/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp"
     },

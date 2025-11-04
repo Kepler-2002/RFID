@@ -2087,6 +2087,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textViewPLCStatus
 id textViewReadCount
 id textViewTitle
 id text_input_end_icon
@@ -2277,6 +2278,7 @@ menu menu_home
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
+raw config
 string _0
 string abc_action_bar_home_description
 string abc_action_bar_up_description

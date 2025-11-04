@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.graphics.Color;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class ScanActivity extends AppCompatActivity{
 
   private Spinner spinnerPower;
   private TextView textViewReadCount;
+  private TextView textViewPLCStatus;
 
   private TextView text1;
 
@@ -67,6 +69,40 @@ public class ScanActivity extends AppCompatActivity{
 
   // 声明一个Handler用于定时任务
   private Handler handler = new Handler();
+  private Runnable plcStatusRunnable;
+
+  private void updatePLCStatus() {
+    if (tcpServer != null) {
+      if (tcpServer.isClientConnected()) {
+        String clientIp = tcpServer.getClientIpAddress();
+        textViewPLCStatus.setText("PLC已连接 - " + clientIp);
+        textViewPLCStatus.setTextColor(Color.GREEN);
+      } else {
+        textViewPLCStatus.setText("PLC未连接");
+        textViewPLCStatus.setTextColor(Color.RED);
+      }
+    } else {
+      textViewPLCStatus.setText("PLC未连接");
+      textViewPLCStatus.setTextColor(Color.RED);
+    }
+  }
+
+  private void startPLCStatusUpdate() {
+    plcStatusRunnable = new Runnable() {
+      @Override
+      public void run() {
+        updatePLCStatus();
+        handler.postDelayed(this, 1000); // 每秒更新一次
+      }
+    };
+    handler.post(plcStatusRunnable);
+  }
+
+  private void stopPLCStatusUpdate() {
+    if (plcStatusRunnable != null) {
+      handler.removeCallbacks(plcStatusRunnable);
+    }
+  }
 
   private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
   private Runnable reconnectRunnable = new Runnable() {
@@ -79,11 +115,11 @@ public class ScanActivity extends AppCompatActivity{
       boolean isConnected = tcpClient.isConnectedV2();
 
       if (!isConnected) {
-        Log.d("Syslog", "TCP连接断开，正在连接...");
+        Log.d("Syslog", "上位机TCP连接断开，正在连接...");
         runOnUiThread(new Runnable() {
           @Override
           public void run() {
-            showToast("TCP连接断开，正在重新连接...");
+            showToast("上位机TCP连接断开，正在重新连接...");
           }
         });
 
@@ -152,6 +188,7 @@ public class ScanActivity extends AppCompatActivity{
     // 初始化视图组件
     spinnerPower= findViewById(R.id.spinnerPower);
     textViewReadCount = findViewById(R.id.textViewReadCount);
+    textViewPLCStatus = findViewById(R.id.textViewPLCStatus);
     buttonRefresh = findViewById(R.id.buttonRefresh);
     tableLayout = findViewById(R.id.tableLayout);
     editTextIpAddress = findViewById(R.id.editTextIpAddress);
@@ -171,6 +208,7 @@ public class ScanActivity extends AppCompatActivity{
 
     spinnerPower.setVisibility(View.INVISIBLE);
     textViewReadCount.setVisibility(View.INVISIBLE);
+    textViewPLCStatus.setVisibility(View.INVISIBLE);
     buttonRefresh.setVisibility(View.INVISIBLE);
     tableLayout.setVisibility(View.INVISIBLE);
     editTextIpAddress.setVisibility(View.INVISIBLE);
@@ -371,20 +409,28 @@ public class ScanActivity extends AppCompatActivity{
     }
 
     // 继续初始化界面的代码
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        spinnerPower.setVisibility(View.VISIBLE);
-        textViewReadCount.setVisibility(View.VISIBLE);
-        buttonRefresh.setVisibility(View.VISIBLE);
-        tableLayout.setVisibility(View.VISIBLE);
-        editTextIpAddress.setVisibility(View.VISIBLE);
-        buttonConnect.setVisibility(View.VISIBLE);
-        text1.setVisibility(View.VISIBLE);
-        textConnectingStatus.setVisibility(View.INVISIBLE);
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            spinnerPower.setVisibility(View.VISIBLE);
+            textViewReadCount.setVisibility(View.VISIBLE);
+            textViewPLCStatus.setVisibility(View.VISIBLE);
+            buttonRefresh.setVisibility(View.VISIBLE);
+            tableLayout.setVisibility(View.VISIBLE);
+            editTextIpAddress.setVisibility(View.VISIBLE);
+            buttonConnect.setVisibility(View.VISIBLE);
+            editTextTimeout.setVisibility(View.VISIBLE);
+            text1.setVisibility(View.VISIBLE);
+            textConnectingStatus.setVisibility(View.INVISIBLE);
+            
+            // 初始化PLC状态显示
+            updatePLCStatus();
+            
+            // 开始PLC状态更新定时器
+            startPLCStatusUpdate();
+          }
+        });
       }
-    });
-  }
 
   public void showConnectionErrorDialog() {
     // 连接失败，显示警告对话框
@@ -467,7 +513,13 @@ public class ScanActivity extends AppCompatActivity{
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    rfidReaderHelper.closeAllConnect();
+    
+    // 停止PLC状态更新
+    stopPLCStatusUpdate();
+    
+    if (rfidReaderHelper != null) {
+      rfidReaderHelper.closeAllConnect();
+    }
     executorService.shutdown();
     scheduler.shutdown();
   }

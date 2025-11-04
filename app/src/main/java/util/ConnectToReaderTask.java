@@ -22,7 +22,7 @@ public class ConnectToReaderTask extends AsyncTask<Void, Void, ConnectionResult>
     @Override
     protected ConnectionResult doInBackground(Void... params) {
         // 在后台执行连接读写器的操作
-        ConnectionResult ConnectionResult = rfidReaderHelper.connectToReader();
+        ConnectionResult ConnectionResult = rfidReaderHelper.connectToReader(scanActivity);
         return ConnectionResult; // 连接读写器的代码
     }
 

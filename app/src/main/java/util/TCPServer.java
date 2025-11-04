@@ -14,6 +14,8 @@ public class TCPServer implements Runnable {
     private boolean isRunning;
     private BlockingQueue<String> plcDataQueue;
     private ServerSocket serverSocket;
+    private Socket currentClientSocket;
+    private String clientIpAddress;
 
     public TCPServer(int port, BlockingQueue<String> plcDataQueue) {
         this.port = port;
@@ -45,7 +47,16 @@ public class TCPServer implements Runnable {
             while (isRunning) {
                 Socket clientSocket = serverSocket.accept();
                 Log.d(TAG, "PLC client connected: " + clientSocket.getInetAddress().getHostAddress());
+                
+                // 保存当前客户端连接信息
+                currentClientSocket = clientSocket;
+                clientIpAddress = clientSocket.getInetAddress().getHostAddress();
+                
                 handleClient(clientSocket);
+                
+                // 客户端断开连接后清除信息
+                currentClientSocket = null;
+                clientIpAddress = null;
             }
         } catch (IOException e) {
             if (isRunning) {
@@ -77,5 +88,15 @@ public class TCPServer implements Runnable {
                 Log.e(TAG, "Error closing client socket", e);
             }
         }
+    }
+
+    // 获取当前客户端连接状态
+    public boolean isClientConnected() {
+        return currentClientSocket != null && !currentClientSocket.isClosed() && currentClientSocket.isConnected();
+    }
+
+    // 获取当前客户端IP地址
+    public String getClientIpAddress() {
+        return clientIpAddress;
     }
 }

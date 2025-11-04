@@ -11,9 +11,14 @@ import com.rfidread.Models.GPI_Model;
 import com.rfidread.Models.Tag_Model;
 import com.rfidread.RFIDReader;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
+import android.content.Context;
+import com.example.myapplication.R;
+
 
 public class RFIDReaderHelper implements IAsynchronousMessage {
   private boolean isConnected = false;
@@ -28,6 +33,18 @@ public class RFIDReaderHelper implements IAsynchronousMessage {
 
   public RFIDReaderHelper(BlockingQueue<RFIDData> rfidDataQueue) {
     this.rfidDataQueue = rfidDataQueue;
+  }
+
+  private boolean isDebugMode(Context context) {
+    Properties properties = new Properties();
+    try {
+      InputStream inputStream = context.getResources().openRawResource(R.raw.config);
+      properties.load(inputStream);
+      return Boolean.parseBoolean(properties.getProperty("debug_mode", "false"));
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
   }
 
   private String[] Ports = {
@@ -205,7 +222,13 @@ public class RFIDReaderHelper implements IAsynchronousMessage {
 
     }
 
-    public ConnectionResult connectToReader() {
+    public ConnectionResult connectToReader(Context context) {
+        if (isDebugMode(context)) {
+            this.isConnected = true;
+            this.connID = "debug_mode";
+            return new ConnectionResult(true, this.connID);
+        }
+
         for (int i = 0; i < Ports.length; i++) {
             conn = RFIDReader.CreateSerialConn(Ports[i] + ":115200", this);
             if (conn) {

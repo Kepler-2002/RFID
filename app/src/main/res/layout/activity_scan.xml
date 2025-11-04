@@ -94,6 +94,24 @@
                     android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginEnd="20dp">
+
+            <!-- PLC连接状态显示 -->
+            <TextView
+                    android:id="@+id/textViewPLCStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PLC未连接"
+                    android:textSize="24sp"
+                    android:textColor="#FF0000"
+                    android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
         <ScrollView
                 android:id="@+id/scrollViewMain"
                 android:layout_width="wrap_content"
@@ -144,12 +162,21 @@
                 android:textSize="40dp"
                 android:layout_marginStart="100dp"
                 android:layout_marginBottom="8dp"/>
+        <!-- 上位机IP标签 -->
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上位机IP："
+                android:textSize="24sp"
+                android:layout_marginStart="20dp"
+                android:layout_gravity="center_vertical"/>
+
         <!-- 输入框 -->
         <EditText
                 android:id="@+id/editTextIpAddress"
                 android:layout_width="200dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="200dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="200dp"
                 android:layout_height="wrap_content"
                 android:hint="192.168.0.1:5555"
@@ -165,13 +192,23 @@
                 android:textSize="40dp"
                 android:text="连接"/>
 
-        <EditText
-                android:id="@+id/editTextTimeout"
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="超时(ms)"
+                android:text="超时:"
+                android:textSize="24sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"/>
+
+        <EditText
+                android:id="@+id/editTextTimeout"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:hint="300"
                 android:inputType="number"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:background="@android:drawable/edit_text"
+                android:padding="8dp" />
     </LinearLayout>
 
 </RelativeLayout>

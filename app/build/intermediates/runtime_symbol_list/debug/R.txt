@@ -2086,6 +2086,7 @@ int id textSpacerNoButtons 0x7f08018d
 int id textSpacerNoTitle 0x7f08018e
 int id textStart 0x7f08018f
 int id textTop 0x7f080190
+int id textViewPLCStatus 0x7f0801b9
 int id textViewReadCount 0x7f080191
 int id textViewTitle 0x7f080192
 int id text_input_end_icon 0x7f080193
@@ -2276,6 +2277,7 @@ int menu menu_home 0x7f0c0000
 int mipmap ic_launcher 0x7f0d0000
 int mipmap ic_launcher_round 0x7f0d0001
 int plurals mtrl_badge_content_description 0x7f0e0000
+int raw config 0x7f130000
 int string _0 0x7f0f0000
 int string abc_action_bar_home_description 0x7f0f0001
 int string abc_action_bar_up_description 0x7f0f0002
